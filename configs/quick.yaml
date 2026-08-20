@@ -1,0 +1,137 @@
+name: quick
+master_seed: 20260820
+cases:
+  - name: ou_linear_gaussian
+    signal:
+      type: ou
+      dimensions: 1
+      mu: 1.0
+      state_diffusion: 0.15
+      initial_mean: 0.0
+      initial_std: 0.2
+    observation:
+      type: gaussian
+      map: linear
+      coefficient: 2.0
+      observation_std: 0.068526
+      evaluation_rule: right
+    time: {dt: 0.01, steps: 500}
+    replicates: 2
+    filter: {ensemble_size: 24}
+    estimation:
+      method: grid
+      theta_true: 0.37
+      theta_min: 0.1
+      theta_max: 1.0
+      theta_points: 5
+
+  - name: ou_nonlinear_gaussian
+    signal:
+      type: ou
+      dimensions: 1
+      mu: 1.0
+      state_diffusion: 0.15
+      initial_mean: 0.0
+      initial_std: 0.2
+    observation:
+      type: gaussian
+      map: sigmoid
+      coefficient: 1.0
+      scale: 17.2047
+      shift: 0.15
+      observation_std: 0.0117758
+      evaluation_rule: right
+    time: {dt: 0.01, steps: 500}
+    replicates: 2
+    filter: {ensemble_size: 32}
+    estimation:
+      method: grid
+      theta_true: 0.37
+      theta_min: 0.1
+      theta_max: 1.0
+      theta_points: 5
+
+  - name: ou_poisson
+    signal:
+      type: ou
+      dimensions: 1
+      mu: 1.0
+      state_diffusion: 0.15
+      initial_mean: 0.0
+      initial_std: 0.2
+    observation:
+      type: poisson
+      map: positive_sigmoid
+      coefficient: 3394.91
+      scale: 8.0
+      shift: 0.04
+      floor: 0.25
+      evaluation_rule: left
+    time: {dt: 0.01, steps: 500}
+    replicates: 2
+    filter: {ensemble_size: 32}
+    estimation:
+      method: grid
+      theta_true: 0.37
+      theta_min: 0.1
+      theta_max: 1.0
+      theta_points: 5
+
+  - name: ou_recursive_experimental
+    signal:
+      type: ou
+      dimensions: 1
+      mu: 1.0
+      state_diffusion: 0.15
+      initial_mean: 0.0
+      initial_std: 0.2
+    observation:
+      type: gaussian
+      map: sigmoid
+      coefficient: 1.0
+      scale: 17.2047
+      shift: 0.15
+      observation_std: 0.0117758
+      evaluation_rule: right
+    time: {dt: 0.01, steps: 500}
+    replicates: 2
+    filter: {ensemble_size: 32}
+    estimation:
+      method: recursive
+      theta_true: 0.37
+      theta_min: 0.1
+      theta_max: 1.0
+      theta_points: 5
+      initial_theta: 0.7
+      step_size: 0.1
+      information_floor: 0.001
+      step_clip: 0.05
+
+  - name: heat_nonlinear_gaussian
+    signal:
+      type: heat_1d_fem
+      dimensions: 20
+      domain_length: 0.1
+      state_noise_variance: 0.015
+      initial_mean: 0.0
+      initial_std: 0.05
+    observation:
+      type: gaussian
+      map: sensor_sigmoid
+      sensor_locations: [0.009091, 0.018182, 0.027273, 0.036364, 0.045455, 0.054545, 0.063636, 0.072727, 0.081818, 0.090909]
+      dimensions: 20
+      domain_length: 0.1
+      coefficient: 1.0
+      scale: 3.0
+      shift: 0.0
+      observation_std: 0.282842712474619
+      evaluation_rule: right
+    time: {dt: 0.01, steps: 50}
+    replicates: 1
+    filter: {ensemble_size: 24}
+    estimation:
+      method: grid
+      theta_true: 0.025
+      theta_min: 0.01
+      theta_max: 0.1
+      theta_points: 5

@@ -1,0 +1,3 @@
+case,replicate,theta_true,theta_final,absolute_error,observed_information,predictable_information,normalized_error,root_status
+ou_recursive_experimental,0,0.37,0.5984619040527733,0.22846190405277333,3.037390909118943,1.879554006257349,0.3981659671407476,recursive
+ou_recursive_experimental,1,0.37,0.40430583480674714,0.03430583480674715,3.735055563060108,3.4668101600302133,0.0663004575308806,recursive

@@ -1,0 +1,3 @@
+case,replicate,theta_true,theta_final,absolute_error,observed_information,predictable_information,normalized_error,root_status
+ou_nonlinear_gaussian,0,0.37,0.6484576666503188,0.2784576666503188,8.761881654992479,17.21683312771775,0.8242479413190165,interpolated_root
+ou_nonlinear_gaussian,1,0.37,0.32725979930225496,0.042740200697745034,12.223224494700228,18.782697944622953,-0.14942712865723598,interpolated_root

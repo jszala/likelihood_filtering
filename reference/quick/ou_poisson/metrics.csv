@@ -1,0 +1,3 @@
+case,replicate,theta_true,theta_final,absolute_error,observed_information,predictable_information,normalized_error,root_status
+ou_poisson,0,0.37,0.5698476184919441,0.1998476184919441,7.554445212715912,10.840486225684879,0.5492881946867012,interpolated_root
+ou_poisson,1,0.37,0.16625676852869403,0.20374323147130596,2.1416987204308073,2.230712410722686,-0.2981689243590545,interpolated_root

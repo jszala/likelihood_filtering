@@ -1,0 +1,232 @@
+{
+  "conventions": {
+    "gaussian_cases": {
+      "heat_nonlinear_gaussian": {
+        "increment_variance": 0.0008,
+        "observation_std": 0.282842712474619,
+        "observation_variance": 0.08
+      },
+      "ou_linear_gaussian": {
+        "increment_variance": 4.6958126760000005e-05,
+        "observation_std": 0.068526,
+        "observation_variance": 0.0046958126760000005
+      },
+      "ou_nonlinear_gaussian": {
+        "increment_variance": 1.3866946564e-06,
+        "observation_std": 0.0117758,
+        "observation_variance": 0.00013866946563999998
+      },
+      "ou_recursive_experimental": {
+        "increment_variance": 1.3866946564e-06,
+        "observation_std": 0.0117758,
+        "observation_variance": 0.00013866946563999998
+      }
+    },
+    "gaussian_model": "dY_t = h(X_t) dt + observation_std dV_t",
+    "heat_state_noise": "state_noise_variance is a variance; its amplitude is its square root"
+  },
+  "experiment": {
+    "cases": [
+      {
+        "dt": 0.01,
+        "ensemble_size": 24,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_linear_gaussian",
+        "observation": {
+          "coefficient": 2.0,
+          "evaluation_rule": "right",
+          "map": "linear",
+          "observation_std": 0.068526,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 2,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 500,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 5,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 32,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_nonlinear_gaussian",
+        "observation": {
+          "coefficient": 1.0,
+          "evaluation_rule": "right",
+          "map": "sigmoid",
+          "observation_std": 0.0117758,
+          "scale": 17.2047,
+          "shift": 0.15,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 2,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 500,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 5,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 32,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_poisson",
+        "observation": {
+          "coefficient": 3394.91,
+          "evaluation_rule": "left",
+          "floor": 0.25,
+          "map": "positive_sigmoid",
+          "scale": 8.0,
+          "shift": 0.04,
+          "type": "poisson"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 2,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 500,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 5,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 32,
+        "estimator": "recursive",
+        "initial_theta": 0.7,
+        "name": "ou_recursive_experimental",
+        "observation": {
+          "coefficient": 1.0,
+          "evaluation_rule": "right",
+          "map": "sigmoid",
+          "observation_std": 0.0117758,
+          "scale": 17.2047,
+          "shift": 0.15,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 0.001,
+        "recursive_step_clip": 0.05,
+        "recursive_step_size": 0.1,
+        "replicates": 2,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 500,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 5,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 24,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "heat_nonlinear_gaussian",
+        "observation": {
+          "coefficient": 1.0,
+          "dimensions": 20,
+          "domain_length": 0.1,
+          "evaluation_rule": "right",
+          "map": "sensor_sigmoid",
+          "observation_std": 0.282842712474619,
+          "scale": 3.0,
+          "sensor_locations": [
+            0.009091,
+            0.018182,
+            0.027273,
+            0.036364,
+            0.045455,
+            0.054545,
+            0.063636,
+            0.072727,
+            0.081818,
+            0.090909
+          ],
+          "shift": 0.0,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 1,
+        "signal": {
+          "dimensions": 20,
+          "domain_length": 0.1,
+          "initial_mean": 0.0,
+          "initial_std": 0.05,
+          "state_noise_variance": 0.015,
+          "type": "heat_1d_fem"
+        },
+        "steps": 50,
+        "theta_max": 0.1,
+        "theta_min": 0.01,
+        "theta_points": 5,
+        "theta_true": 0.025
+      }
+    ],
+    "master_seed": 20260820,
+    "name": "quick"
+  },
+  "seed_policy": {
+    "candidate_parameters": "candidate identity is recorded, but noise coordinates omit it to give common random numbers",
+    "coordinates": [
+      "case",
+      "replicate",
+      "signal or observation",
+      "timestep",
+      "ensemble member",
+      "parameter candidate"
+    ],
+    "generator": "numpy.random.SeedSequence",
+    "parallelism": "independent replicates only"
+  },
+  "software": {
+    "PyYAML": "6.0.3",
+    "likelihood-filtering": "source tree",
+    "matplotlib": "3.10.9",
+    "numpy": "2.4.4",
+    "python": "3.12.14",
+    "scipy": "1.17.1"
+  }
+}
