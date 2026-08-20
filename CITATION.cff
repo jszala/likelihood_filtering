@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the thesis and this repository."
+title: "Likelihood estimation and filtering"
+type: software
+authors:
+  - family-names: Szalankiewicz
+    given-names: Jan
+version: 1.0.0
+date-released: 2026-08-20
+license: BSD-3-Clause
+repository-code: "https://github.com/jszala/likelihood_filtering"
