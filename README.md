@@ -8,17 +8,28 @@ as data arrive.
 The main examples share a one-dimensional Ornstein–Uhlenbeck (OU) signal:
 
 $$
-dX_t = -\theta X_t\,dt + 0.15\,dW_t.
+dX_t = -\theta X_t\,dt + \sigma\,dW_t.
 $$
 
-Here, $X_t$ is the **hidden signal** and $\theta$ controls how quickly it returns
-toward zero. The estimator sees only one of these observation streams, not $X_t$:
+The signal diffusion amplitude is $\sigma=0.15$. Here, $X_t$ is the **hidden
+signal** and $\theta$ controls how quickly it returns toward zero. The
+estimator sees only one of these observation streams, not $X_t$:
 
 | Observation model | What is recorded |
 | --- | --- |
 | Linear Gaussian | Noisy continuous measurements proportional to $X_t$ |
 | Nonlinear Gaussian | Noisy continuous measurements through a sigmoid sensor |
 | Poisson | Event counts whose rate depends on $X_t$ |
+
+![Four-panel plot showing one hidden Ornstein–Uhlenbeck signal and the observed increments from linear Gaussian, nonlinear Gaussian, and Poisson sensors driven by that same signal](docs/assets/signal_and_observations.png)
+
+*What is observed:* The upper-left panel is one simulated hidden signal path.
+The other panels show the corresponding observed increments $\Delta Y_n$
+(discrete samples of $dY_t$) over a short window with $\Delta t=0.01$.
+The dark curves are conditional mean increments given the hidden signal, shown
+only to explain the observation models; the estimator receives the noisy
+increments, not the signal or those means. Generate this illustration with
+`python scripts/plot_readme_observations.py`.
 
 **Input:** Gaussian observation increments or Poisson counts over time. **Output:**
 a running estimate $\hat\theta_t$ of the mean-reversion rate, with score and
@@ -99,20 +110,23 @@ artifacts without rerunning the filters.
 
 ## Model and implementation notes
 
-Gaussian observations use one convention throughout:
+For the scalar OU Gaussian cases, $\gamma$ denotes observation variance per
+unit time. The configured Gaussian profiles evaluate the observation map at
+the right endpoint of each step:
 
 $$
-dY_t=h(X_t)\,dt+\sigma_{\mathrm{obs}}\,dV_t,
+dY_t=h(X_t)\,dt+\sqrt{\gamma}\,dV_t,
 \qquad
-\Delta Y_n=h(X_{t_n})\Delta t+\sigma_{\mathrm{obs}}\sqrt{\Delta t}\,Z_n.
+\Delta Y_n=h(X_{t_{n+1}})\Delta t+\sqrt{\gamma\Delta t}\,Z_n.
 $$
 
-Configuration files therefore use `observation_std`. The covariance of an
-increment is `observation_std**2 * dt`. The linear and nonlinear OU experiments
-use the thesis values `0.068526` and `0.0117758`, respectively. Ambiguous
-legacy names are rejected by the configuration loader. A full covariance matrix
-can be supplied to `GaussianObservation` through the Python API as
-`observation_covariance`.
+Configuration files use `observation_std` $=\sqrt{\gamma}$, so the variance
+of an increment is $\gamma\Delta t$ or `observation_std**2 * dt`. The linear
+and nonlinear OU profiles have `observation_std` values `0.068526` and
+`0.0117758`, respectively; their corresponding $\gamma$ values are the
+squares of those numbers. Ambiguous legacy names are rejected by the
+configuration loader. A full covariance matrix can be supplied to
+`GaussianObservation` through the Python API as `observation_covariance`.
 
 For the heat equation, `state_noise_variance: 0.015` is the state-driving
 variance; its amplitude is the square root of that value. This is separate
