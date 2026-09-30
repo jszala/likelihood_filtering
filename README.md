@@ -5,7 +5,7 @@ Python package studies a process whose state changes continuously but cannot be
 observed directly. It filters the observations and estimates the unknown parameter
 as data arrive.
 
-The main examples share a one-dimensional Ornstein--Uhlenbeck (OU) signal:
+The main examples share a one-dimensional Ornstein–Uhlenbeck (OU) signal:
 
 $$
 dX_t = -\theta X_t\,dt + 0.15\,dW_t.
@@ -48,9 +48,10 @@ author's PhD thesis.
 ![Estimated likelihood score across candidate parameters at four time horizons for the three observation models; each score crosses zero near the true parameter](docs/assets/score_roots.png)
 
 *Thesis numerical experiment:* Each panel shows the estimated score across the
-parameter grid at $t=250$, $500$, $750$, and $1000$ for one representative
-observation record. The horizontal line is zero; its crossing gives the
-score-root estimate. The dotted vertical line marks $\theta_0=0.37$.
+parameter grid at observation horizons of 250, 500, 750, and 1000 time units
+for one representative observation record. The horizontal line is zero; its
+crossing gives the score-root estimate. The dotted vertical line marks
+$\theta_0=0.37$.
 
 The package also includes a one-dimensional finite-element stochastic heat
 equation with ten noisy spatial sensors. It is a small spatial proof of concept;
