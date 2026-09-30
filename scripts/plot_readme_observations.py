@@ -63,7 +63,9 @@ def main() -> None:
     increments = np.empty((3, steps))
     means = np.empty((3, steps))
     for index in range(steps):
-        for case, (observation, rng) in enumerate(zip(observation_models, observation_rngs)):
+        for case, (observation, rng) in enumerate(
+            zip(observation_models, observation_rngs, strict=True)
+        ):
             observed_index = index if observation.evaluation_rule == "left" else index + 1
             observed_state = np.array([[truth[observed_index]]])
             observed_time = time[observed_index]
