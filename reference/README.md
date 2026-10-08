@@ -9,3 +9,8 @@ figures.
 Replicate files are ignored by Git. The committed material consists of the resolved
 manifest, compact aggregates, summary tables, and figures regenerated with the
 observation standard deviations recorded in the configuration.
+
+`benchmark/` contains a separate 30-record paired parameter-estimation
+comparison at horizon 250. Its results, configuration, methods, and limitations
+are documented in [`docs/benchmark.md`](../docs/benchmark.md). It is not the
+source of the longer thesis illustrations in the main README.

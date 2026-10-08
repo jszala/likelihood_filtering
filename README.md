@@ -21,6 +21,38 @@ estimator sees only one of these observation streams, not $X_t$:
 | Nonlinear Gaussian | Noisy continuous measurements through a sigmoid sensor |
 | Poisson | Event counts whose rate depends on $X_t$ |
 
+## Paired parameter-estimation benchmark
+
+At $T=250$, both estimators received the **same 30 simulated observation
+records per sensor** ($\theta_0=0.37$, $\Delta t=0.01$). The online EnKF
+score-root estimator is compared with an exact discrete-model Kalman likelihood
+MLE for linear Gaussian observations and a 4,096-particle likelihood MLE for the
+nonlinear and Poisson observations.
+
+| Observation model | Score-root MAE (bias) | Independent MLE MAE (bias) | MAE difference, 95% paired interval | Median CPU s, score / MLE |
+| --- | ---: | ---: | ---: | ---: |
+| Linear Gaussian · Kalman | 0.0535 (+0.0045) | 0.0429 (−0.0051) | +0.0106 [+0.0005, +0.0196] | 61.8 / 0.23 |
+| Nonlinear Gaussian · particle filter | 0.0608 (+0.0287) | 0.0820 (+0.0300) | −0.0212 [−0.0452, +0.0032] | 72.0 / 66.1 |
+| Poisson · particle filter | 0.0510 (+0.0271) | 0.0617 (+0.0317) | −0.0106 [−0.0235, +0.0018] | 71.1 / 80.2 |
+
+The difference is score-root MAE minus baseline MAE, so positive values favor
+the baseline. Kalman had lower error in the linear case; the nonlinear and
+Poisson intervals include zero. Every final score estimate had a root, and no
+method reached a parameter bound (0/30 records for each method and sensor).
+The particle MLE is approximate: among five preselected records per nonlinear
+sensor, doubling particles to 8,192 changed a grid estimate by up to 0.15 for
+nonlinear Gaussian and 0.05 for Poisson. These are finite-horizon synthetic
+results at one true parameter, not a general performance claim. The particle
+MLE uses a 0.05-spaced grid, while the score root interpolates; CPU times
+compare a full online path with a final-only likelihood estimate.
+
+The [benchmark design and regeneration command](docs/benchmark.md),
+[configuration](configs/benchmark.yaml), [resolved manifest](reference/benchmark/manifest.json),
+[per-record estimates](reference/benchmark/per_record.csv),
+[full summary](reference/benchmark/summary.csv), and
+[particle-count checks](reference/benchmark/particle_check.csv) are committed.
+The longer thesis trajectories below are separate experiments.
+
 ![Four-panel plot showing one hidden Ornstein–Uhlenbeck signal and the observed increments from linear Gaussian, nonlinear Gaussian, and Poisson sensors driven by that same signal](docs/assets/signal_and_observations.png)
 
 *What is observed:* The upper-left panel is one simulated hidden signal path.
@@ -44,7 +76,10 @@ $\theta_0=0.37$ and horizon $T=1000$. Pale blue lines are online estimates, the
 black line is their median, and the red dashed line is the true value. The
 estimates concentrate near $\theta_0$ as more observations arrive. These are
 simulation results, reproduced from the numerical experiments chapter of the
-author's PhD thesis.
+author's PhD thesis. The original long-run artifacts are not committed here;
+`configs/thesis.yaml` records their settings. The committed `reference/quick`
+artifacts come from the much shorter smoke-test profile and do not reproduce
+this figure.
 
 ## How the estimate is computed
 
