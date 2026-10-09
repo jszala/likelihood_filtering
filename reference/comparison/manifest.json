@@ -1,0 +1,134 @@
+{
+  "bootstrap_samples": 50000,
+  "check_grid_points": 37,
+  "check_particles": 16384,
+  "check_replicates": 5,
+  "checkpoint_steps": [
+    25000,
+    50000,
+    100000
+  ],
+  "design": {
+    "bootstrap_unit": "independent paired observation record",
+    "earlier_checkpoints": "secondary; identical record prefixes",
+    "family_intervals": "Bonferroni percentile bootstrap across all model/checkpoint pairs",
+    "primary_metric": "paired MAE difference at final horizon per model",
+    "sensitivity_subset": "first check_replicates; never pooled with primary records",
+    "timing": "total method workload for entire record; not per-checkpoint online latency"
+  },
+  "experiment": {
+    "cases": [
+      {
+        "dt": 0.01,
+        "ensemble_size": 75,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_linear_gaussian",
+        "observation": {
+          "coefficient": 2.0,
+          "evaluation_rule": "right",
+          "map": "linear",
+          "observation_std": 0.068526,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 40,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 100000,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 19,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 150,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_nonlinear_gaussian",
+        "observation": {
+          "coefficient": 1.0,
+          "evaluation_rule": "right",
+          "map": "sigmoid",
+          "observation_std": 0.0117758,
+          "scale": 17.2047,
+          "shift": 0.15,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 40,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 100000,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 19,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 150,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_poisson",
+        "observation": {
+          "coefficient": 3394.91,
+          "evaluation_rule": "left",
+          "floor": 0.25,
+          "map": "positive_sigmoid",
+          "scale": 8.0,
+          "shift": 0.04,
+          "type": "poisson"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 40,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 100000,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 19,
+        "theta_true": 0.37
+      }
+    ],
+    "master_seed": 20261008,
+    "name": "paired_ou_comparison_T1000"
+  },
+  "filter_repeats": 2,
+  "particles": 8192,
+  "schema_version": 1,
+  "software": {
+    "PyYAML": "6.0.3",
+    "likelihood-filtering": "1.0.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.3",
+    "python": "3.12.3",
+    "scipy": "1.18.1"
+  },
+  "source_sha256": "4586c4e1d343e0c0bf20e652ad4b20d8d4fd168e4e2dd4d626f27c958fa23eed"
+}

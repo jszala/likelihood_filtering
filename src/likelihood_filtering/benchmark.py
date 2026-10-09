@@ -293,18 +293,7 @@ def summarize_benchmark(
     return rows
 
 
-def run_benchmark(
-    config: ExperimentConfig,
-    output_dir: str | Path,
-    *,
-    particles: int = 4096,
-    check_particles: int = 8192,
-    check_replicates: int = 5,
-    resume: bool = False,
-    workers: int = 1,
-) -> list[dict[str, Any]]:
-    if particles < 2 or check_particles <= particles or check_replicates < 0 or workers < 1:
-        raise ValueError("invalid particle counts or check count")
+def validate_benchmark_config(config: ExperimentConfig) -> None:
     names = [case.name for case in config.cases]
     if names != ["ou_linear_gaussian", "ou_nonlinear_gaussian", "ou_poisson"]:
         raise ValueError("benchmark requires the three canonical OU cases in order")
@@ -326,6 +315,21 @@ def run_benchmark(
             or actual != expected
         ):
             raise ValueError(f"case {case.name} does not match its benchmark model")
+
+
+def run_benchmark(
+    config: ExperimentConfig,
+    output_dir: str | Path,
+    *,
+    particles: int = 4096,
+    check_particles: int = 8192,
+    check_replicates: int = 5,
+    resume: bool = False,
+    workers: int = 1,
+) -> list[dict[str, Any]]:
+    if particles < 2 or check_particles <= particles or check_replicates < 0 or workers < 1:
+        raise ValueError("invalid particle counts or check count")
+    validate_benchmark_config(config)
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest_path = output_dir / "manifest.json"

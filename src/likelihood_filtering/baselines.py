@@ -186,7 +186,7 @@ def particle_log_likelihood(
     return total
 
 
-def particle_grid_mle(
+def particle_grid_log_likelihoods(
     observed_increments: Array,
     theta_grid: Array,
     signal: OrnsteinUhlenbeckSignal,
@@ -194,7 +194,8 @@ def particle_grid_mle(
     dt: float,
     particles: int,
     seed: int,
-) -> LikelihoodEstimate:
+    checkpoint_steps: tuple[int, ...],
+) -> Array:
     grid = np.asarray(theta_grid, dtype=float)
     if grid.ndim != 1 or grid.size < 2 or np.any(np.diff(grid) <= 0):
         raise ValueError("theta grid must be strictly increasing")
@@ -207,6 +208,16 @@ def particle_grid_mle(
         np.any(observed < 0) or np.any(observed != np.floor(observed))
     ):
         raise ValueError("Poisson observations must be nonnegative integer counts")
+
+    if (
+        not checkpoint_steps
+        or tuple(sorted(set(checkpoint_steps))) != checkpoint_steps
+        or checkpoint_steps[0] < 1
+        or checkpoint_steps[-1] > observed.shape[0]
+    ):
+        raise ValueError("checkpoints must be unique increasing positive observation counts")
+    snapshots = np.empty((grid.size, len(checkpoint_steps)))
+    next_checkpoint = 0
 
     # All parameter candidates share forecast noise and resampling offsets.
     # Advancing the grid together avoids one Python filter loop per candidate.
@@ -244,6 +255,11 @@ def particle_grid_mle(
         if not np.all(np.isfinite(increments)):
             raise FloatingPointError("particle likelihood became nonfinite")
         totals += increments
+        if index + 1 == checkpoint_steps[next_checkpoint]:
+            snapshots[:, next_checkpoint] = totals
+            next_checkpoint += 1
+            if next_checkpoint == len(checkpoint_steps):
+                return snapshots
         log_weights -= increments[:, None]
         weights = np.exp(log_weights)
         effective_size = 1.0 / np.sum(weights**2, axis=1)
@@ -258,9 +274,24 @@ def particle_grid_mle(
             normal = seeded_rng(seed, "particle_forecast", index).standard_normal(particles)
             state = state - grid[:, None] * signal.mu * state * dt + noise_scale * normal
 
-    values = totals
-    if not np.any(np.isfinite(values)):
-        return LikelihoodEstimate(float("nan"), float("-inf"), "no_finite_likelihood")
+    raise RuntimeError("unreachable: checkpoints not collected")
+
+
+def particle_grid_mle(
+    observed_increments: Array,
+    theta_grid: Array,
+    signal: OrnsteinUhlenbeckSignal,
+    observation: GaussianObservation | PoissonObservation,
+    dt: float,
+    particles: int,
+    seed: int,
+) -> LikelihoodEstimate:
+    """Select the maximum on the parameter grid at the final observation."""
+    observed = _increments(observed_increments)
+    values = particle_grid_log_likelihoods(
+        observed, theta_grid, signal, observation, dt, particles, seed, (len(observed),)
+    )[:, 0]
+    grid = np.asarray(theta_grid, dtype=float)
     index = int(np.argmax(values))
     status = "boundary" if index in {0, grid.size - 1} else "interior"
     return LikelihoodEstimate(float(grid[index]), float(values[index]), status)
