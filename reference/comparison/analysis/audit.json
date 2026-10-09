@@ -1,0 +1,15 @@
+{
+  "record_files": 120,
+  "estimate_rows": 855,
+  "cost_rows": 285,
+  "summary_rows": 18,
+  "status": "passed",
+  "run_source_sha256": "4586c4e1d343e0c0bf20e652ad4b20d8d4fd168e4e2dd4d626f27c958fa23eed",
+  "analysis_script_sha256": "8706c6b0434e6f0c5d472f2cbbff2940402e947dc307c407f6629cb8c17fd1c9",
+  "input_file_sha256": {
+    "manifest.json": "2878a513601790f684ae123eb5b88668973c72f0accd6f0e7616b9f4805470bf",
+    "estimates.csv": "0693a741ea3c867a19a6ea03c714807061b2376a32ee0d8c6062c627d6b9bce8",
+    "costs.csv": "d987339fd0f38009aecfda5c4395dd0cd38e6768e671837bfa6e0072a88a6a68",
+    "summary.csv": "5122763858382e2c1fcbbdcef13ba96752bba9742be1a9525267d6e235588e45"
+  }
+}

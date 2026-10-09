@@ -1,0 +1,26 @@
+name: paired_ou_comparison_T1000
+master_seed: 20261008
+cases:
+  - name: ou_linear_gaussian
+    signal: {type: ou, dimensions: 1, mu: 1.0, state_diffusion: 0.15, initial_mean: 0.0, initial_std: 0.2}
+    observation: {type: gaussian, map: linear, coefficient: 2.0, observation_std: 0.068526, evaluation_rule: right}
+    time: {dt: 0.01, steps: 100000}
+    replicates: 40
+    filter: {ensemble_size: 75}
+    estimation: {method: grid, theta_true: 0.37, theta_min: 0.1, theta_max: 1.0, theta_points: 19}
+
+  - name: ou_nonlinear_gaussian
+    signal: {type: ou, dimensions: 1, mu: 1.0, state_diffusion: 0.15, initial_mean: 0.0, initial_std: 0.2}
+    observation: {type: gaussian, map: sigmoid, coefficient: 1.0, scale: 17.2047, shift: 0.15, observation_std: 0.0117758, evaluation_rule: right}
+    time: {dt: 0.01, steps: 100000}
+    replicates: 40
+    filter: {ensemble_size: 150}
+    estimation: {method: grid, theta_true: 0.37, theta_min: 0.1, theta_max: 1.0, theta_points: 19}
+
+  - name: ou_poisson
+    signal: {type: ou, dimensions: 1, mu: 1.0, state_diffusion: 0.15, initial_mean: 0.0, initial_std: 0.2}
+    observation: {type: poisson, map: positive_sigmoid, coefficient: 3394.91, scale: 8.0, shift: 0.04, floor: 0.25, evaluation_rule: left}
+    time: {dt: 0.01, steps: 100000}
+    replicates: 40
+    filter: {ensemble_size: 150}
+    estimation: {method: grid, theta_true: 0.37, theta_min: 0.1, theta_max: 1.0, theta_points: 19}

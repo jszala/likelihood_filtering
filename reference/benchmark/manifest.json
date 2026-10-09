@@ -1,0 +1,114 @@
+{
+  "data_policy": "one simulated record per case and replicate, shared by both methods",
+  "experiment": {
+    "cases": [
+      {
+        "dt": 0.01,
+        "ensemble_size": 75,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_linear_gaussian",
+        "observation": {
+          "coefficient": 2.0,
+          "evaluation_rule": "right",
+          "map": "linear",
+          "observation_std": 0.068526,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 30,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 25000,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 19,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 150,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_nonlinear_gaussian",
+        "observation": {
+          "coefficient": 1.0,
+          "evaluation_rule": "right",
+          "map": "sigmoid",
+          "observation_std": 0.0117758,
+          "scale": 17.2047,
+          "shift": 0.15,
+          "type": "gaussian"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 30,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 25000,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 19,
+        "theta_true": 0.37
+      },
+      {
+        "dt": 0.01,
+        "ensemble_size": 150,
+        "estimator": "grid",
+        "initial_theta": null,
+        "name": "ou_poisson",
+        "observation": {
+          "coefficient": 3394.91,
+          "evaluation_rule": "left",
+          "floor": 0.25,
+          "map": "positive_sigmoid",
+          "scale": 8.0,
+          "shift": 0.04,
+          "type": "poisson"
+        },
+        "recursive_information_floor": 1e-08,
+        "recursive_step_clip": null,
+        "recursive_step_size": 1.0,
+        "replicates": 30,
+        "signal": {
+          "dimensions": 1,
+          "initial_mean": 0.0,
+          "initial_std": 0.2,
+          "mu": 1.0,
+          "state_diffusion": 0.15,
+          "type": "ou"
+        },
+        "steps": 25000,
+        "theta_max": 1.0,
+        "theta_min": 0.1,
+        "theta_points": 19,
+        "theta_true": 0.37
+      }
+    ],
+    "master_seed": 20260820,
+    "name": "paired_ou_benchmark_T250"
+  },
+  "numpy": "2.4.4",
+  "particle_convergence_check": {
+    "first_replicates": 5,
+    "particles": 8192
+  },
+  "particles": 4096,
+  "python": "3.12.14",
+  "scipy": "1.17.1"
+}
